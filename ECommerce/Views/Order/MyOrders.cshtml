@@ -1,0 +1,28 @@
+﻿@model IEnumerable<VwSalesInvoice>
+
+
+
+<table id="order-listing" class="table table-hover">
+    <thead>
+        <tr>
+            <th>First Name </th>
+            <th>Last Name </th>
+            <th>InvoiceDate </th>
+            <th>DelivryDate </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cat in Model)
+        {
+            <tr style="margin:0px;padding:0px;">
+                <td class="col-md-8"> @cat.FirstName</td>
+                <td class="col-md-8"> @cat.LastName</td>
+                <td class="col-md-8"> @cat.InvoiceDate</td>
+                <td class="col-md-8"> @cat.DelivryDate</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+

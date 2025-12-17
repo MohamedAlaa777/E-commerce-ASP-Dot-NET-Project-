@@ -1,0 +1,16 @@
+# ASP.NET Core
+bin/
+obj/
+.vs/
+
+# User-specific
+*.user
+*.suo
+*.dll
+*.exe
+*.pdb
+
+# Logs
+*.log
+
+wwwroot/
