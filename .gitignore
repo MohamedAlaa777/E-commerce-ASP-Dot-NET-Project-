@@ -12,6 +12,5 @@ obj/
 
 # Logs
 *.log
-wwwroot/Uploads/
 wwwroot/Fontend/
 wwwroot/lib/
