@@ -12,5 +12,8 @@ obj/
 
 # Logs
 *.log
+wwwroot/
 wwwroot/Fontend/
 wwwroot/lib/
+wwwroot/Admin/
+wwwroot/Uploads/

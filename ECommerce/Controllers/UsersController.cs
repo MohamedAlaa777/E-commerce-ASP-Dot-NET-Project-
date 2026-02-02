@@ -112,7 +112,7 @@ namespace ECommerce.Controllers
                     return View(new UserLogin());
                 }
                 //if login fails (wrong password or email), show error
-                ModelState.AddModelError(string.Empty, "Invalid login attempt. please check your email and password.");
+                ModelState.AddModelError(string.Empty, "Invalid login attempt. please check your email or password.");
             }
             catch (Exception ex)
             {

@@ -372,17 +372,18 @@
                                         </div>
                                         <ul id="sub-menu" class="sm pixelstrap sm-vertical">
                                             <li>
-                                                <a href="#">Home</a>
+                                                <a href="/Home/Index">Home</a>
                                             </li>
                                             <li>
-                                                <a href="#">Products</a>
+                                                <a href="/Items/ItemList">Products</a>
                                             </li>
                                             <li>
-                                                <a href="#">About Us</a>
+                                                <a asp-controller="Pages" asp-action="Index" asp-route-pageId="1">About Us</a>
                                             </li>
-                                            <li><a href="#">Terms Of Use</a></li>
                                             <li>
-                                                <a href="#">Contact Us</a>
+                                                <a asp-controller="Pages" asp-action="Index" asp-route-pageId="2">Terms Of Use</a></li>
+                                            <li>
+                                                <a asp-controller="Pages" asp-action="Index" asp-route-pageId="4">Contact Us</a>
                                             </li>
                                         </ul>
                                     </nav>

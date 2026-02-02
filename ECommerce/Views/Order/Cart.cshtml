@@ -1,5 +1,4 @@
 ﻿@model ShoppingCart
-
 <!-- breadcrumb start -->
 <div class="breadcrumb-section">
     <div class="container">
@@ -51,7 +50,7 @@
                                             <div class="qty-box">
                                                 <div class="input-group">
                                                     <input type="text" name="quantity" class="form-control input-number qty"
-                                                       value="1">
+                                                           value="1">
                                                 </div>
                                             </div>
                                         </div>
@@ -72,13 +71,19 @@
                                     <div class="qty-box">
                                         <div class="input-group">
                                             <input type="number" name="quantity"
-                                               class="form-control input-number qty"
-                                               data-id="@item.ItemId" data-price="@item.Price"
-                                               value="@item.Qty" onkeyup="ChangeQty(this)">
+                                                   class="form-control input-number qty"
+                                                   data-id="@item.ItemId" data-price="@item.Price"
+                                                   value="@item.Qty" onchange="ChangeQty(this)">
                                         </div>
                                     </div>
                                 </td>
-                                <td><a href="#" class="icon"><i class="ti-close"></i></a></td>
+                                <td>
+                                    <a href="javascript:void(0)"
+                                       class="icon text-danger"
+                                       onclick="removeItem(@item.ItemId)">
+                                        <i class="ti-close"></i>
+                                    </a>
+                                </td>
                                 <td>
                                     <h2 data-id="@item.ItemId" class="td-color totalPrice">@item.Total</h2>
                                 </td>
@@ -112,29 +117,6 @@
     <script>
         function ChangeQty(input) {
             let id = $(input).data("id");
-            let price = $(input).data("price");
-            let qty = $(input).val();
-            let OverAllTotal = 0;
-            $(".totalPrice").each(function (i) {
-
-                if ($(this).data("id") === id) {
-                    $(this).html(price * qty);
-                }
-                alert($(this).html());
-                OverAllTotal = OverAllTotal + parseFloat($(this).text());
-                console.log(OverAllTotal);
-            });
-            console.log(OverAllTotal);
-            $("#OverAllTotal").html(OverAllTotal);
-
-            // ajax resuest
-        }
-    </script>
-
-
-    @* <script>
-        function ChangeQty(input) {
-            let id = $(input).data("id");
             let price = parseFloat($(input).data("price"));
             let qty = parseInt($(input).val()) || 0;
 
@@ -142,20 +124,61 @@
                 url: '/Order/UpdateItemQuantity',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ itemId: id, qty: qty }),
+                data: JSON.stringify({
+                    itemId: id,
+                    qty: qty
+                }),
                 success: function (response) {
-                    // Update this item's total in the UI
-                    $(`.totalPrice[data-id=${id}]`).text(response.itemTotal.toFixed(2));
 
-                    // Update overall total
-                    $("#OverAllTotal").text(`$${response.cartTotal.toFixed(2)}`);
+                    // update item total
+                    $(`.totalPrice[data-id='${id}']`)
+                        .text(response.itemTotal.toFixed(2));
+
+                    // update cart total
+                    $("#OverAllTotal")
+                        .text(`$${response.cartTotal.toFixed(2)}`);
                 },
                 error: function () {
                     alert("Failed to update quantity");
                 }
             });
         }
+    </script>
 
-    </script> *@
+    <script>
+        function removeItem(itemId) {
+            if (!confirm("Remove this item from cart?")) return;
+
+            $.ajax({
+                url: '/Order/RemoveItem',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ itemId: itemId }),
+                success: function (response) {
+
+                    // remove row
+                    $(`.totalPrice[data-id='${itemId}']`)
+                        .closest("tr")
+                        .fadeOut(300, function () {
+                            $(this).remove();
+                        });
+
+                    // redirect if cart empty
+                    if (response.redirect) {
+                        window.location.href = response.redirectUrl;
+                        return;
+                    }
+
+                    // update total
+                    $("#OverAllTotal")
+                        .text(`$${response.cartTotal.toFixed(2)}`);
+                },
+                error: function () {
+                    alert("Failed to remove item");
+                }
+            });
+        }
+    </script>
+
 
 }

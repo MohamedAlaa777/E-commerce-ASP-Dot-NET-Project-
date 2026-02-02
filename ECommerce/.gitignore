@@ -10,6 +10,7 @@ obj/
 *.exe
 
 # ASP.NET Core-specific
+wwwroot/
 wwwroot/lib/
 node_modules/
 
